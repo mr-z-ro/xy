@@ -1,11 +1,11 @@
 import serial
 import time
 
-PORT = '/dev/tty.wchusbserial640'
+PORT = '/dev/tty.wchusbserial1420'
 BAUD = 115200
 
-UP = 10
-DOWN = 40
+UP = 60
+DOWN = 80
 
 class Device(object):
 

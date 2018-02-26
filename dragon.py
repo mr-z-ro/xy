@@ -8,9 +8,9 @@ def main(iteration):
             t.circle(-1, 90, 36)
         else:
             t.circle(1, 90, 36)
-    drawing = t.drawing.rotate_and_scale_to_fit(315, 380, step=90).scale(1, -1).origin()
-    drawing.render().write_to_png('dragon.png')
+    drawing = t.drawing.rotate_and_scale_to_fit(60, 60, step=90).scale(1, -1).origin()
+    #drawing.render().write_to_png('dragon%s.png' % iteration)
     xy.draw(drawing)
 
 if __name__ == '__main__':
-    main(13)
+    main(8)

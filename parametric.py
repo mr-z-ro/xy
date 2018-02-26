@@ -19,7 +19,7 @@ def main():
     t1 = pi * 24
     n = 100000
     path = [butterfly(t) for t in times(t0, t1, n)]
-    drawing = xy.Drawing([path]).scale_to_fit(315, 380)
+    drawing = xy.Drawing([path]).scale_to_fit(60, 60)
     xy.draw(drawing)
 
 if __name__ == '__main__':
