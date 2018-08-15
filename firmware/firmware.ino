@@ -29,6 +29,8 @@ int ylimit_pin1 = 12;
 int ylimit_pin2 = 13;
 int xlimit_pin1 = A2;
 int xlimit_pin2 = A3;
+int laser_pin1 = 5;
+int laser_pin2 = 4;
 int servopin = A1;
 Servo servoPen;
 
@@ -168,6 +170,30 @@ void parseCoordinate(char * cmd)
   prepareMove();
 }
 
+/********** sending power to the laser **************/
+void setLaserPower(int16_t power)
+{
+  power  = power > 255 ? 255 : power;
+  power = power < -255 ? -255 : power;
+
+  if(power >= 0)
+  {
+    //MePort::dWrite2(HIGH);
+    digitalWrite(laser_pin2, HIGH);
+    delayMicroseconds(5);
+    //MePort::aWrite1(speed);
+    analogWrite(laser_pin1, speed);
+  }
+  else
+  {
+    // MePort::dWrite2(LOW);
+    digitalWrite(laser_pin2, HIGH);
+    delayMicroseconds(5);
+    //MePort::aWrite1(-speed);
+    analogWrite(laser_pin1, -speed);
+  }
+}
+
 void echoRobotSetup()
 {
   Serial.print("M10 XY ");
@@ -229,6 +255,15 @@ void parseAuxDelay(char * cmd)
   stepAuxDelay = atoi(tmp);
 }
 
+void parseLaserPower(char * cmd)
+{
+  char * tmp;
+  strtok_r(cmd, " ", &tmp);
+  int pwm = atoi(tmp);
+  setLaserPower(pwm);
+  delay(100);
+}
+
 void parsePen(char * cmd)
 {
   char * tmp;
@@ -266,6 +301,9 @@ void parseMcode(char * cmd)
       break;
     case 3:
       parseAuxDelay(cmd);
+      break;
+    case 4:
+      parseLaserPower(cmd);
       break;
     case 5:
       parseRobotSetup(cmd);
@@ -364,6 +402,7 @@ void setup() {
   servoPen.attach(servopin);
   delay(100);
   servoPen.write(roboSetup.data.penUpPos);
+  setLaserPower(0);
 }
 
 char buf[64];

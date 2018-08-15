@@ -6,7 +6,7 @@ import xy
 random.seed(1337)
 r = 0.70
 n = 12
-points, pairs = poisson_disc(0, 0, 60, 60, r, n)
+points, pairs = poisson_disc(0, 0, 120, 120, r, n)
 drawing = xy.Drawing(pairs)
 print 'Raw number of paths: %s' % len(drawing.paths)
 
@@ -20,7 +20,7 @@ paths = xy.sort_paths_greedy(paths)
 paths = xy.join_paths(paths)
 print 'Paths after xy optimization: %s' % len(paths)
 
-for tolerance in [0]:
+for tolerance in [0, 1]:
 	print ('Simplyfiying based on tolerance %s' % tolerance)
 	simplified_paths = paths
 	if tolerance:
@@ -31,4 +31,4 @@ for tolerance in [0]:
 	im = drawing.render()
 	im.write_to_png('test_t%s_n%s_r%s.png' % (tolerance, n, r))
 
-xy.draw(paths, tolerance=0)
+xy.draw(paths, tolerance=1)
